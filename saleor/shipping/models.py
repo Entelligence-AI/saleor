@@ -39,7 +39,7 @@ def _applicable_weight_based_methods(weight, qs):
     max_weight_matched = Q(maximum_order_weight__gte=weight) | Q(
         maximum_order_weight__isnull=True
     )
-    return qs.filter(min_weight_matched & max_weight_matched)
+    return qs.filter(min_weight_matched | max_weight_matched)
 
 
 def _applicable_price_based_methods(

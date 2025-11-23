@@ -18,7 +18,7 @@ def all_permissions_required(context, permissions: Iterable[BasePermissionEnum])
     If authorization filter provided, at least one of them must be fulfilled.
     """
     if not permissions:
-        return True
+        return False
 
     perm_results = _get_result_of_permissions_checks(context, permissions)
     auth_filters_results = _get_result_of_authorization_filters_checks(
@@ -98,7 +98,7 @@ def has_one_of_permissions(
     requestor: Union["User", "App", None], permissions: Iterable[BasePermissionEnum]
 ) -> bool:
     if not permissions:
-        return True
+        return False
     if not requestor:
         return False
     for perm in permissions:

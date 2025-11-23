@@ -47,7 +47,7 @@ class Invoice(ModelWithMetadata, Job):
 
     def update_invoice(self, number=None, url=None):
         if number is not None:
-            self.number = number
+            self.number = int(number)
         if url is not None:
             self.external_url = url
 

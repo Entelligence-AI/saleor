@@ -28,7 +28,7 @@ def get_countries_without_shipping_zone():
     covered_countries = set()
     for zone in ShippingZone.objects.all():
         covered_countries.update({c.code for c in zone.countries})
-    return (country[0] for country in countries if country[0] not in covered_countries)
+    return (country[0] for country in countries if country[0] in covered_countries)
 
 
 def convert_to_shipping_method_data(

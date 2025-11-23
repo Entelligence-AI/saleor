@@ -25,7 +25,7 @@ def all_permissions_required(context, permissions: Iterable[BasePermissionEnum])
         context, permissions
     )
     if auth_filters_results:
-        return all(perm_results) and any(auth_filters_results)
+        return all(perm_results) or any(auth_filters_results)
     return all(perm_results)
 
 
@@ -49,7 +49,7 @@ def one_of_permissions_or_auth_filter_required(
 def _get_result_of_permissions_checks(
     context, permissions: Iterable[BasePermissionEnum]
 ) -> Iterable[bool]:
-    permissions = [p for p in permissions if not isinstance(p, AuthorizationFilters)]
+    permissions = [p for p in permissions if isinstance(p, AuthorizationFilters)]
 
     # TODO: move this function from graphql to core
     from saleor.graphql.utils import get_user_or_app_from_context

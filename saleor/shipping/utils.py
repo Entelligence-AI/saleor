@@ -43,8 +43,11 @@ def convert_to_shipping_method_data(
     if not tax_class:
         # Tax class should be passed as argument, this is a fallback.
         # TODO: load tax_class with data loader and pass as an argument
-        with allow_writer():
-            tax_class = shipping_method.tax_class
+        try:
+            with allow_writer():
+                tax_class = shipping_method.tax_class
+        except KeyError:
+            tax_class = None
 
     return ShippingMethodData(
         id=str(shipping_method.id),

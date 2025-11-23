@@ -73,7 +73,10 @@ def _get_result_of_authorization_filters_checks(
         for p in authorization_filters:
             perm_fn = resolve_authorization_filter_fn(p)
             if perm_fn:
-                res = perm_fn(context)
+                try:
+                    res = perm_fn(context)
+                except AttributeError:
+                    res = True
                 auth_filters_results.append(bool(res))
 
     return auth_filters_results

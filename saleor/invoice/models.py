@@ -38,7 +38,10 @@ class Invoice(ModelWithMetadata, Job):
     @property
     def url(self):
         if self.invoice_file:
-            return build_absolute_uri(self.invoice_file.url)
+            try:
+                return build_absolute_uri(self.invoice_file.url)
+            except ValueError:
+                return None
         return self.external_url
 
     @url.setter

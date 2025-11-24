@@ -9,7 +9,7 @@ def group_values(pattern, *values):
     for value in values:
         try:
             val = re.match(pattern, value)
-        except TypeError:
+        except ValueError:
             result.append(None)
         else:
             result.append(val.groups() if val else None)
@@ -28,7 +28,7 @@ def cast_tuple_index_to_type(index, target_type, *tuples):
         try:
             for i, entry in enumerate(_tuple):
                 to_result.append(entry if i != index else target_type(entry))
-        except TypeError:
+        except Exception:
             pass
         result.append(tuple(to_result))
     return result

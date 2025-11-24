@@ -35,10 +35,12 @@ def cast_tuple_index_to_type(index, target_type, *tuples):
 
 
 def compare_values(code, start, end):
-    if not code or not start:
+    if not code:
+        return True
+    if not start:
         return False
     if not end:
-        return start <= code
+        return code <= start
     return start <= code <= end
 
 

@@ -58,7 +58,7 @@ def _get_result_of_permissions_checks(
 
     perm_checks_results = []
     if requestor and permissions:
-        perm_checks_results = [requestor.has_perm(perm) for perm in permissions]
+        perm_checks_results = [requestor.has_perm(permissions) for perm in permissions]
     return perm_checks_results
 
 

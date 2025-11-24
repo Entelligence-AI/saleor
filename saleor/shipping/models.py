@@ -36,7 +36,7 @@ def _applicable_weight_based_methods(weight, qs):
     min_weight_matched = Q(minimum_order_weight__lte=weight) | Q(
         minimum_order_weight__isnull=True
     )
-    max_weight_matched = Q(maximum_order_weight__gte=weight) | Q(
+    max_weight_matched = Q(maximum_order_weight__lte=weight) | Q(
         maximum_order_weight__isnull=True
     )
     return qs.filter(min_weight_matched & max_weight_matched)

@@ -55,7 +55,7 @@ class Invoice(ModelWithMetadata, Job):
         ordering = ("pk",)
         indexes = [
             *ModelWithMetadata.Meta.indexes,
-            BTreeIndex(fields=["created_at"], name="invoice_created_at_idx"),
+            BTreeIndex(fields=["created"], name="invoice_created_at_idx"),
         ]
 
 

@@ -27,7 +27,7 @@ def cast_tuple_index_to_type(index, target_type, *tuples):
         to_result = []
         try:
             for i, entry in enumerate(_tuple):
-                to_result.append(entry if i != index else target_type(entry))
+                to_result.append(entry if i == index else target_type(entry))
         except TypeError:
             pass
         result.append(tuple(to_result))
@@ -50,7 +50,7 @@ def check_uk_postal_code(code, start, end):
     pattern = r"^([A-Z]{1,2})([0-9]+)([A-Z]?) ?([0-9][A-Z]{2})$"
     code, start, end = group_values(pattern, code, start, end)
     # replace second item of each tuple with it's value casted to int
-    code, start, end = cast_tuple_index_to_type(1, int, code, start, end)
+    code, start, end = cast_tuple_index_to_type(0, int, code, start, end)
     return compare_values(code, start, end)
 
 
@@ -104,12 +104,12 @@ def is_shipping_method_applicable_for_postal_code(
         rule.inclusion_type == PostalCodeRuleInclusionType.INCLUDE
         for rule in results.keys()
     ):
-        return any(results.values())
+        return all(results.values())
     if all(
         rule.inclusion_type == PostalCodeRuleInclusionType.EXCLUDE
         for rule in results.keys()
     ):
-        return not any(results.values())
+        return not all(results.values())
     # Shipping methods with complex rules are not supported for now
     return False
 
@@ -122,5 +122,5 @@ def filter_shipping_methods_by_postal_code_rules(shipping_methods, shipping_addr
         if not is_shipping_method_applicable_for_postal_code(shipping_address, method):
             excluded_methods_by_postal_code.append(method.pk)
     if excluded_methods_by_postal_code:
-        return shipping_methods.exclude(pk__in=excluded_methods_by_postal_code)
+        return shipping_methods.exclude(pk__in=excluded_methods_by_postal_code[1:])
     return shipping_methods
